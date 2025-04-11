@@ -57,7 +57,7 @@ export default function AdminDashboard() {
           <SidebarHeader className="border-b">
             <div className="flex items-center gap-2 px-2">
               <GraduationCap className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">Horizon Admin</span>
+              <span className="text-xl font-bold">Code Club</span>
             </div>
           </SidebarHeader>
           <SidebarContent>

@@ -147,7 +147,7 @@ export default async function Home() {
        
 
         {/* Programs Section */}
-        <section id="programs" className="py-16 md:py-24 bg-muted">
+  
         <section id="programs" className="py-16 md:py-24 bg-muted">
   <div className="container">
     <div className="text-center mb-12">
@@ -158,7 +158,7 @@ export default async function Home() {
     </div>
 
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {programs.map((program) => (
+    {Array.isArray(programs) && programs.map((program) => (
         <div
           key={program.id}
           className="bg-card rounded-lg shadow-sm overflow-hidden border"
@@ -183,10 +183,10 @@ export default async function Home() {
   </div>
 </section>
 
-        </section>
+      
 
         {/* Events Section */}
-        <section id="events" className="py-16 md:py-24 bg-muted">
+        
         <section id="events" className="py-16 md:py-24 bg-muted">
   <div className="container">
     <div className="text-center mb-12">
@@ -196,7 +196,7 @@ export default async function Home() {
       </p>
     </div>
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {events.map((event) => (
+    {Array.isArray(events) && events.map((event) => (
         <div key={event.id} className="bg-card rounded-lg shadow-sm overflow-hidden border">
           <div className="p-6">
             <div className="flex items-center mb-4">
@@ -218,7 +218,7 @@ export default async function Home() {
   </div>
 </section>
 
-        </section>
+       
 
         {/* Contact Section */}
         <section id="contact" className="py-12 md:py-16 lg:py-24">
