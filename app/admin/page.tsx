@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { GraduationCap, Lock, Mail } from "lucide-react"
 import Link from "next/link"
 
+
 export default function AdminLogin() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted p-4">
@@ -10,7 +11,7 @@ export default function AdminLogin() {
         <div className="flex flex-col items-center text-center">
           <div className="flex items-center gap-2 mb-2">
             <GraduationCap className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
-            <span className="text-xl sm:text-2xl font-bold">Horizon Academy</span>
+            <span className="text-xl sm:text-2xl font-bold">Code Club Admin </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold">Staff Portal</h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-2">Sign in to access the admin dashboard</p>
@@ -26,7 +27,7 @@ export default function AdminLogin() {
               <Input
                 id="email"
                 type="email"
-                placeholder="name@horizonacademy.edu"
+                placeholder="name@сodeclub.edu"
                 className="pl-10 text-sm h-9 sm:h-10"
               />
             </div>

@@ -4,8 +4,39 @@ import { Button } from "@/components/ui/button"
 import { BookOpen, Calendar, ChevronRight, GraduationCap, MapPin, Phone } from "lucide-react"
 import { Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+type Program = {
+  id: number
+  title: string
+  description: string
+  imageUrl: string
+  backgroundColor?: string
+}
 
-export default function Home() {
+async function getPrograms(): Promise<Program[]> {
+  const res = await fetch("http://localhost:3000/api/programs", {
+    cache: "no-store",
+  })
+  return res.json()
+}
+type Event = {
+  id: number
+  title: string
+  description: string
+  date: string
+}
+
+async function getEvents(): Promise<Event[]> {
+  const res = await fetch("http://localhost:3000/api/events", {
+    cache: "no-store",
+  })
+  return res.json()
+}
+
+
+export default async function Home() {
+  const programs = await getPrograms()
+  const events = await getEvents()
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
@@ -13,8 +44,9 @@ export default function Home() {
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <GraduationCap className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">Horizon Academy</span>
+            <span className="text-xl font-bold">Code Club</span>
           </div>
+
           <nav className="hidden md:flex items-center gap-6">
             <Link href="#" className="text-sm font-medium hover:text-primary">
               Home
@@ -82,8 +114,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/5 z-10" />
           <div className="relative h-[400px] sm:h-[500px] md:h-[600px]">
             <Image
-              src="/banner.jpg"
-              alt="Students in classroom"
+              src="/code_club_logo.jpg"
+              alt="code-club logo"
               fill
               className="object-cover"
               priority
@@ -93,10 +125,10 @@ export default function Home() {
             <div className="container px-4 md:px-6">
               <div className="max-w-xl space-y-4">
                 <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                  Empowering Minds, Shaping Futures
+                  Learn to code with Code Club
                 </h1>
-                <p className="text-base text-muted-foreground sm:text-lg md:text-xl">
-                  Horizon Academy provides a nurturing environment where students thrive academically and personally.
+                <p className="text-base text-black sm:text-lg md:text-xl">
+                  Our projects have step-by-step instructions to teach you how to create games,animations, and much more. Choose from hundred of options, in up to 30 languages.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">
                   <Button size="lg" className="w-full sm:w-auto">
@@ -112,258 +144,80 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className="bg-muted py-12">
-          <div className="container">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="flex flex-col items-center text-center">
-                <span className="text-4xl font-bold text-primary">25+</span>
-                <span className="text-sm text-muted-foreground mt-2">Years of Excellence</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <span className="text-4xl font-bold text-primary">98%</span>
-                <span className="text-sm text-muted-foreground mt-2">College Acceptance</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <span className="text-4xl font-bold text-primary">50+</span>
-                <span className="text-sm text-muted-foreground mt-2">Extracurricular Activities</span>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <span className="text-4xl font-bold text-primary">15:1</span>
-                <span className="text-sm text-muted-foreground mt-2">Student-Teacher Ratio</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* About Section */}
-        <section id="about" className="py-12 md:py-16 lg:py-24">
-          <div className="container px-4 md:px-6">
-            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-              <div className="order-2 md:order-1">
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl mb-4 md:mb-6">
-                  About Horizon Academy
-                </h2>
-                <p className="text-muted-foreground mb-4 md:mb-6 text-sm sm:text-base">
-                  Founded in 1998, Horizon Academy has been committed to providing a comprehensive education that
-                  balances academic excellence with character development. Our approach focuses on nurturing critical
-                  thinking, creativity, and a lifelong love of learning.
-                </p>
-                <p className="text-muted-foreground mb-4 md:mb-6 text-sm sm:text-base">
-                  With state-of-the-art facilities and dedicated faculty, we create an environment where students can
-                  discover their passions and develop their unique talents.
-                </p>
-                <Button variant="outline" className="w-full sm:w-auto">
-                  Our History
-                </Button>
-              </div>
-              <div className="relative h-[250px] sm:h-[300px] md:h-[400px] rounded-lg overflow-hidden order-1 md:order-2 mb-6 md:mb-0">
-                <Image src="/pic-1.jpg" alt="School campus" fill className="object-cover" />
-              </div>
-            </div>
-          </div>
-        </section>
+       
 
         {/* Programs Section */}
         <section id="programs" className="py-16 md:py-24 bg-muted">
-          <div className="container">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Our Academic Programs</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Horizon Academy offers a diverse range of programs designed to meet the needs and interests of all
-                students.
-              </p>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Elementary Program */}
-              <div className="bg-card rounded-lg shadow-sm overflow-hidden border">
-                <div className="relative h-48">
-                  <Image
-                    src="/banner-2.jpg"
-                    alt="Elementary program"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">Elementary Program</h3>
-                  <p className="text-muted-foreground mb-4">
-                    A foundation-building curriculum focusing on core skills and exploratory learning for grades K-5.
-                  </p>
-                  <Button variant="outline" size="sm">
-                    Learn More
-                  </Button>
-                </div>
-              </div>
+        <section id="programs" className="py-16 md:py-24 bg-muted">
+  <div className="container">
+    <div className="text-center mb-12">
+      <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Our Academic Programs</h2>
+      <p className="text-muted-foreground max-w-2xl mx-auto">
+        Code Club offers a diverse range of programs designed to meet the needs and interests of all students.
+      </p>
+    </div>
 
-              {/* Middle School Program */}
-              <div className="bg-card rounded-lg shadow-sm overflow-hidden border">
-                <div className="relative h-48">
-                  <Image
-                    src="/pic-2.jpg"
-                    alt="Middle school program"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">Middle School Program</h3>
-                  <p className="text-muted-foreground mb-4">
-                    An engaging curriculum designed to develop critical thinking and independence for grades 6-8.
-                  </p>
-                  <Button variant="outline" size="sm">
-                    Learn More
-                  </Button>
-                </div>
-              </div>
-
-              {/* High School Program */}
-              <div className="bg-card rounded-lg shadow-sm overflow-hidden border">
-                <div className="relative h-48">
-                  <Image
-                    src="/pic-3.jpg"
-                    alt="High school program"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">High School Program</h3>
-                  <p className="text-muted-foreground mb-4">
-                    A college-preparatory curriculum with advanced placement options for grades 9-12.
-                  </p>
-                  <Button variant="outline" size="sm">
-                    Learn More
-                  </Button>
-                </div>
-              </div>
-            </div>
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {programs.map((program) => (
+        <div
+          key={program.id}
+          className="bg-card rounded-lg shadow-sm overflow-hidden border"
+          style={{ backgroundColor: program.backgroundColor || "#fff" }}
+        >
+          <div className="relative h-48">
+            <Image
+              src={program.imageUrl}
+              alt={program.title}
+              fill
+              className="object-cover"
+            />
           </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section className="py-16 md:py-24">
-          <div className="container">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">What Our Community Says</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Hear from our students, parents, and alumni about their experiences at Horizon Academy.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-card p-6 rounded-lg shadow-sm border">
-                <div className="flex items-center mb-4">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4">
-                    <Image src="/placeholder.svg?height=50&width=50" alt="Parent" fill className="object-cover" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Sarah Johnson</h4>
-                    <p className="text-sm text-muted-foreground">Parent</p>
-                  </div>
-                </div>
-                <p className="italic text-muted-foreground">
-                  "The teachers at Horizon Academy truly care about each student's success. My daughter has flourished
-                  academically and socially since enrolling."
-                </p>
-              </div>
-
-              <div className="bg-card p-6 rounded-lg shadow-sm border">
-                <div className="flex items-center mb-4">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4">
-                    <Image src="/placeholder.svg?height=50&width=50" alt="Student" fill className="object-cover" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Michael Chen</h4>
-                    <p className="text-sm text-muted-foreground">Student, Grade 11</p>
-                  </div>
-                </div>
-                <p className="italic text-muted-foreground">
-                  "The opportunities at Horizon are incredible. I've been able to explore my interests in robotics and
-                  join competitive teams that have taken me across the country."
-                </p>
-              </div>
-
-              <div className="bg-card p-6 rounded-lg shadow-sm border">
-                <div className="flex items-center mb-4">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4">
-                    <Image src="/placeholder.svg?height=50&width=50" alt="Alumni" fill className="object-cover" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Jessica Rodriguez</h4>
-                    <p className="text-sm text-muted-foreground">Alumni, Class of 2018</p>
-                  </div>
-                </div>
-                <p className="italic text-muted-foreground">
-                  "My education at Horizon prepared me exceptionally well for college. The critical thinking skills and
-                  study habits I developed have been invaluable."
-                </p>
-              </div>
-            </div>
+          <div className="p-6">
+            <h3 className="text-xl font-bold mb-2">{program.title}</h3>
+            <p className="text-muted-foreground mb-4">{program.description}</p>
+            <Button variant="outline" size="sm">Learn More</Button>
           </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
         </section>
 
         {/* Events Section */}
         <section id="events" className="py-16 md:py-24 bg-muted">
-          <div className="container">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Upcoming Events</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Stay connected with our school community through these upcoming events.
-              </p>
+        <section id="events" className="py-16 md:py-24 bg-muted">
+  <div className="container">
+    <div className="text-center mb-12">
+      <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Upcoming Events</h2>
+      <p className="text-muted-foreground max-w-2xl mx-auto">
+        Stay connected with our Code Club community through these upcoming events.
+      </p>
+    </div>
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {events.map((event) => (
+        <div key={event.id} className="bg-card rounded-lg shadow-sm overflow-hidden border">
+          <div className="p-6">
+            <div className="flex items-center mb-4">
+              <span className="text-sm text-muted-foreground">
+                {new Date(event.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-card rounded-lg shadow-sm overflow-hidden border">
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    <Calendar className="h-5 w-5 text-primary mr-2" />
-                    <span className="text-sm text-muted-foreground">March 15, 2025</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Open House</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Tour our campus, meet faculty, and learn about our programs for prospective families.
-                  </p>
-                  <Button variant="outline" size="sm">
-                    Register
-                  </Button>
-                </div>
-              </div>
-
-              <div className="bg-card rounded-lg shadow-sm overflow-hidden border">
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    <Calendar className="h-5 w-5 text-primary mr-2" />
-                    <span className="text-sm text-muted-foreground">April 5, 2025</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Science Fair</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Students showcase their innovative science projects to the community.
-                  </p>
-                  <Button variant="outline" size="sm">
-                    Learn More
-                  </Button>
-                </div>
-              </div>
-
-              <div className="bg-card rounded-lg shadow-sm overflow-hidden border">
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    <Calendar className="h-5 w-5 text-primary mr-2" />
-                    <span className="text-sm text-muted-foreground">April 22, 2025</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Spring Concert</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Join us for an evening of music performed by our talented student musicians.
-                  </p>
-                  <Button variant="outline" size="sm">
-                    Get Tickets
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="text-center mt-8">
-              <Button>View All Events</Button>
-            </div>
+            <h3 className="text-xl font-bold mb-2">{event.title}</h3>
+            <p className="text-muted-foreground mb-4">{event.description}</p>
+            <Button variant="outline" size="sm">Learn More</Button>
           </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
         </section>
 
         {/* Contact Section */}
@@ -373,8 +227,7 @@ export default function Home() {
               <div>
                 <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl mb-4 md:mb-6">Contact Us</h2>
                 <p className="text-muted-foreground mb-6 md:mb-8 text-sm sm:text-base">
-                  We're here to answer any questions you may have about our programs, admissions process, or campus
-                  facilities.
+                  We're here to answer any questions you may have about our programs and courses.
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-start">
@@ -397,7 +250,7 @@ export default function Home() {
                     <BookOpen className="h-5 w-5 text-primary mr-3 mt-0.5 flex-shrink-0" />
                     <div>
                       <h3 className="font-medium">Admissions</h3>
-                      <p className="text-muted-foreground text-sm sm:text-base">admissions@horizonacademy.edu</p>
+                      <p className="text-muted-foreground text-sm sm:text-base">admissions@codeclub.edu</p>
                     </div>
                   </div>
                 </div>
@@ -466,10 +319,10 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <GraduationCap className="h-6 w-6 text-primary" />
-                <span className="text-xl font-bold">Horizon Academy</span>
+                <span className="text-xl font-bold">Code Club</span>
               </div>
               <p className="text-xs sm:text-sm text-muted-foreground">
-                Empowering students to achieve academic excellence and personal growth since 1998.
+                Empowering students to achieve academic excellence and personal growth.
               </p>
             </div>
             <div>
@@ -618,7 +471,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t text-center text-xs sm:text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} Horizon Academy. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Code Club. All rights reserved.</p>
           </div>
         </div>
       </footer>
