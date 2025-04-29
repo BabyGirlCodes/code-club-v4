@@ -1,10 +1,44 @@
+
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { GraduationCap, Lock, Mail } from "lucide-react"
 import Link from "next/link"
 
 
+
 export default function AdminLogin() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const router = useRouter()
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+ 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailPattern.test(email)) {
+      setError("Please enter a valid email address.")
+      return
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.")
+      return
+    }
+
+    
+    if (email === "admin@example.com" && password === "password123") {
+      router.push("/admin/dashboard") 
+    } else {
+      setError("Invalid email or password.")
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted p-4">
       <div className="w-full max-w-[340px] sm:max-w-md p-4 sm:p-8 space-y-6 sm:space-y-8 bg-card rounded-lg shadow-lg border">
@@ -17,7 +51,7 @@ export default function AdminLogin() {
           <p className="text-xs sm:text-sm text-muted-foreground mt-2">Sign in to access the admin dashboard</p>
         </div>
 
-        <form className="space-y-4 sm:space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div className="space-y-1 sm:space-y-2">
             <label htmlFor="email" className="text-xs sm:text-sm font-medium">
               Email
@@ -27,7 +61,9 @@ export default function AdminLogin() {
               <Input
                 id="email"
                 type="email"
-                placeholder="name@сodeclub.edu"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@codeclub.edu"
                 className="pl-10 text-sm h-9 sm:h-10"
               />
             </div>
@@ -44,9 +80,18 @@ export default function AdminLogin() {
             </div>
             <div className="relative">
               <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input id="password" type="password" placeholder="••••••••" className="pl-10 text-sm h-9 sm:h-10" />
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="pl-10 text-sm h-9 sm:h-10"
+              />
             </div>
           </div>
+
+          {error && <div className="text-red-500 text-xs">{error}</div>}
 
           <div className="flex items-center">
             <input
@@ -60,9 +105,7 @@ export default function AdminLogin() {
             </label>
           </div>
 
-          <Link href="/admin/dashboard" className="block w-full">
-            <Button className="w-full h-9 sm:h-10 text-sm">Sign In</Button>
-          </Link>
+          <Button className="w-full h-9 sm:h-10 text-sm">Sign In</Button>
         </form>
 
         <div className="text-center text-xs sm:text-sm text-muted-foreground">
@@ -77,4 +120,3 @@ export default function AdminLogin() {
     </div>
   )
 }
-
